@@ -1,0 +1,42 @@
+<h1>Larkspur Companion Coordinator Dashboard</h1>
+
+<p>Patients in your caseload, with recent missed doses prioritized.</p>
+
+<% if @patients.empty? %>
+  <p>No patients are currently assigned to this coordinator.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Patient</th>
+        <th>Missed doses (24 hours)</th>
+        <th>Most recent missed dose</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @patients.each do |summary| %>
+        <% patient = summary[:patient] %>
+        <tr>
+          <td>
+            <%= patient.first_name %> <%= patient.last_name %>
+          </td>
+          <td>
+            <%= summary[:missed_count] %>
+          </td>
+          <td>
+            <% if summary[:last_missed_at] %>
+              <%= l(summary[:last_missed_at], format: :long) %>
+            <% else %>
+              None in the last 24 hours
+            <% end %>
+          </td>
+          <td>
+            <%= link_to "View patient", patient_path(patient, user_id: params[:user_id]) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

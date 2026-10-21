@@ -1,0 +1,80 @@
+<h1>
+  <%= @patient.first_name %> <%= @patient.last_name %>
+</h1>
+
+<p>
+  <strong>Status:</strong>
+  <%= @patient.status %>
+</p>
+
+<p>
+  <%= link_to "Back to dashboard",
+              dashboard_path(user_id: params[:user_id]) %>
+</p>
+
+<hr>
+
+<h2>Medication adherence history</h2>
+
+<% if @medication_logs.empty? %>
+  <p>No medication logs recorded.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Medication</th>
+        <th>Scheduled dose</th>
+        <th>Status</th>
+        <th>Recorded by</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @medication_logs.each do |log| %>
+        <tr>
+          <td><%= log.medication.name %></td>
+          <td><%= l(log.scheduled_at, format: :long) %></td>
+          <td>
+            <% if log.status == "missed" %>
+              <strong>Missed</strong>
+            <% else %>
+              <%= log.status.humanize %>
+            <% end %>
+          </td>
+          <td><%= log.recorded_by_id %></td>
+          <td><%= log.note.presence || "—" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<hr>
+
+<h2>Care notes</h2>
+
+<% if @care_notes.empty? %>
+  <p>No care notes yet.</p>
+<% else %>
+  <% @care_notes.each do |note| %>
+    <article>
+      <p><%= simple_format(note.body) %></p>
+      <p>
+        <small>
+          Added by user <%= note.author_id %>
+          on <%= l(note.created_at, format: :long) %>
+        </small>
+      </p>
+
+    </article>
+    <hr>
+  <% end %>
+<% end %>
+
+<h2>Add a care note</h2>
+
+<%= render "care_notes/form",
+           patient: @patient,
+           care_note: @care_note,
+           user_id: params[:user_id] %>

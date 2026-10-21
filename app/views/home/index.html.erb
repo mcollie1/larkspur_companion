@@ -1,0 +1,41 @@
+<h1>Larkspur Companion</h1>
+
+<p>Choose a demo user to continue.</p>
+
+<section>
+  <h2>Coordinators</h2>
+
+  <% if @coordinators.any? %>
+    <ul>
+      <% @coordinators.each do |user| %>
+        <li>
+          <%= link_to "Coordinator ##{user.id} (#{user.email})",
+                      dashboard_path(user_id: user.id) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No coordinators available.</p>
+  <% end %>
+</section>
+
+<section>
+  <h2>Patients and Caregivers</h2>
+
+  <% if @patients_and_caregivers.any? %>
+    <ul>
+      <% @patients_and_caregivers.each do |user| %>
+        <% role_names = user.roles.map(&:name) %>
+
+        <li>
+          <%= link_to(
+                "#{role_names.map(&:humanize).join(' / ')} — User ##{user.id} (#{user.email})",
+                care_path(user_id: user.id)
+              ) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No patients or caregivers available.</p>
+  <% end %>
+</section>

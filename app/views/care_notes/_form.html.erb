@@ -1,0 +1,32 @@
+<%= form_with model: [patient, care_note] do |form| %>
+  <%= hidden_field_tag :user_id, user_id %>
+
+  <% if care_note.errors.any? %>
+    <div>
+      <h3><%= pluralize(care_note.errors.count, "error") %> prevented this note from saving:</h3>
+      <ul>
+        <% care_note.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :body, "Care note" %>
+    <%= form.text_area :body, rows: 5, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :medication_id, "Related medication (optional)" %>
+    <%= form.collection_select :medication_id,
+                               patient.medications,
+                               :id,
+                               :name,
+                               { include_blank: "No specific medication" } %>
+  </div>
+
+  <div>
+    <%= form.submit(care_note.persisted? ? "Update note" : "Add care note") %>
+  </div>
+<% end %>

@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient: one
+  name: MyString
+  dosage: MyString
+  instructions: MyText
+  frequency_unit: MyString
+  frequency_interval: 1
+  doses_per_interval: 1
+  prescribed_by_name: MyString
+  started_at: 2026-10-10 13:19:56
+  ended_at: 2026-10-10 13:19:56
+
+two:
+  patient: two
+  name: MyString
+  dosage: MyString
+  instructions: MyText
+  frequency_unit: MyString
+  frequency_interval: 1
+  doses_per_interval: 1
+  prescribed_by_name: MyString
+  started_at: 2026-10-10 13:19:56
+  ended_at: 2026-10-10 13:19:56
